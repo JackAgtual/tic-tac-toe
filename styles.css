@@ -18,11 +18,12 @@ body {
     height: min(90vw, 80vh);
 }
 
-.gameboard div {
+.box {
     background-color: white;
     display: grid;
     justify-content: center;
     align-items: center;
     background-color: rgb(255, 246, 228);
+    border: none;
     font-size: 6rem;
 }
