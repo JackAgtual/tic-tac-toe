@@ -1,0 +1,27 @@
+body {
+    height: 100vh;
+    background-color: rgb(188, 231, 255);
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    justify-items: center;
+    margin: 0;
+}
+
+.gameboard {
+    display: grid;
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    gap: 0.5rem;
+    background-color: rgb(244, 163, 0);
+    aspect-ratio: 1;
+    width: min(90vw, 80vh);
+    height: min(90vw, 80vh);
+}
+
+.gameboard div {
+    background-color: white;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(255, 246, 228);
+    font-size: 6rem;
+}
