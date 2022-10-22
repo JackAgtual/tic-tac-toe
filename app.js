@@ -21,10 +21,10 @@ const gameboard = (doc => {
         if (curMarker.length !== 0) return;
 
         board[row][col] = marker;
-        renderBoardElement(idx);
+        _renderBoardElement(idx);
     };
 
-    const renderBoardElement = idx => {
+    const _renderBoardElement = idx => {
         const grid = doc.querySelector(`.box[data-idx="${idx}"]`);
         const [row, col] = _linearIdx2RowColIdx(idx);
         grid.innerText = `${board[row][col]}`
@@ -32,7 +32,6 @@ const gameboard = (doc => {
 
     return {
         board,
-        renderBoardElement,
         addMarkerToBoard
     }
 })(document);
