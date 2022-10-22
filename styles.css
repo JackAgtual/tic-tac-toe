@@ -5,6 +5,7 @@ body {
     grid-template-rows: min-content 1fr;
     justify-items: center;
     margin: 0;
+    font-family: 'Anton', sans-serif;
 }
 
 .gameboard {
