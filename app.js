@@ -21,21 +21,18 @@ const gameboard = (doc => {
         if (curMarker.length !== 0) return;
 
         board[row][col] = marker;
-        console.log('rendering')
-        renderBoard();
+        renderBoardElement(idx);
     };
 
-    const renderBoard = () => {
-        const grids = doc.querySelectorAll('.box');
-        grids.forEach((grid, idx) => {
-            const [row, col] = _linearIdx2RowColIdx(idx);
-            grid.innerText = `${board[row][col]}`
-        });
+    const renderBoardElement = idx => {
+        const grid = doc.querySelector(`.box[data-idx="${idx}"]`);
+        const [row, col] = _linearIdx2RowColIdx(idx);
+        grid.innerText = `${board[row][col]}`
     };
 
     return {
         board,
-        renderBoard,
+        renderBoardElement,
         addMarkerToBoard
     }
 })(document);
@@ -44,8 +41,6 @@ const Player = (side) => {
 
 };
 
-
-gameboard.renderBoard()
 
 // game boxes
 const boxes = document.querySelectorAll('.box');
