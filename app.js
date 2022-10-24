@@ -5,6 +5,8 @@ const gameboard = (doc => {
         ['', '', '']
     ];
 
+    let turn = 'X'
+
     const _boardSize = board.length; // assuming board is square
 
     const _linearIdx2RowColIdx = linearIdx => {
@@ -13,13 +15,38 @@ const gameboard = (doc => {
         return [Math.floor(linearIdx / _boardSize), linearIdx % _boardSize];
     }
 
-    const addMarkerToBoard = (marker, idx) => {
+    const _getCurrentPlayer = playerList => {
+        for (let i = 0; i < playerList.length; i++) {
+            if (playerList[i].marker === turn) {
+                return playerList[i];
+            }
+        }
+    }
+
+    const playTurn = (playerList, idx) => {
+        const curPlayer = _getCurrentPlayer(playerList);
+        _addMarkerToBoard(curPlayer.marker, idx);
+    }
+
+    const _moveIsValid = (marker, row, col) => {
+        // check if tile is already filled
+        const curMarker = board[row][col];
+        if (curMarker.length !== 0) return false;
+
+        // check if it's player's turn
+        if (marker !== turn) return false;
+
+        return true;
+    }
+
+    const _addMarkerToBoard = (marker, idx) => {
         const [row, col] = _linearIdx2RowColIdx(idx);
         
-        // make sure move is valid
-        const curMarker = board[row][col];
-        if (curMarker.length !== 0) return;
+        if (!_moveIsValid(marker, row, col)) return;
 
+        // toggle turn
+        turn = turn.toUpperCase() === 'X' ? turn = 'O' : turn = 'X';
+        
         board[row][col] = marker;
         _renderBoardElement(idx);
     };
@@ -31,21 +58,24 @@ const gameboard = (doc => {
     };
 
     return {
-        board,
-        addMarkerToBoard
+        playTurn
     }
 })(document);
 
-const Player = (side) => {
+const Player = (marker) => {
 
+    return {
+        marker
+    }
 };
 
+const player1 = Player('X');
+const player2 = Player('O');
 
 // game boxes
 const boxes = document.querySelectorAll('.box');
 boxes.forEach(box => {
     box.addEventListener('click', () => {
-        const marker = 'X';
-        gameboard.addMarkerToBoard(marker, Number(box.dataset.idx));
+        gameboard.playTurn([player1, player2], Number(box.dataset.idx))
     });
 });
