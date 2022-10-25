@@ -7,6 +7,8 @@ const gameboard = (doc => {
 
     let turn = 'X'
 
+    const _markerOptions = ['X', 'O'];
+
     const _boardSize = board.length; // assuming board is square
 
     const _linearIdx2RowColIdx = linearIdx => {
@@ -49,6 +51,7 @@ const gameboard = (doc => {
         
         board[row][col] = marker;
         _renderBoardElement(idx);
+        console.log(_getGameWinner());
     };
 
     const _renderBoardElement = idx => {
@@ -56,6 +59,42 @@ const gameboard = (doc => {
         const [row, col] = _linearIdx2RowColIdx(idx);
         grid.innerText = `${board[row][col]}`
     };
+
+    const _comboIsWinner = (comboArray, marker) => comboArray.filter(el => el === marker).length === _boardSize;
+
+    const _boardIsFull = () => {
+        for (let i = 0; i < _boardSize; i++) {
+            for (let j = 0; j < _boardSize; j++) {
+                if (board[i][j].length === 0) return false;
+            }
+        }
+        return true;
+    }
+
+    const _getGameWinner = () => {
+        // Will return marker for winner of game
+        // if there is no winner, return an empty string
+        // tie game: return a string of length 2 with both markers
+
+        for (const marker of _markerOptions) {
+            for (let i = 0; i < _boardSize; i++) {
+                let row = board[i];
+                let col = board.map(row => row[i]);
+
+                if(_comboIsWinner(row, marker) || _comboIsWinner(col, marker)) return marker;
+            }
+        
+            const diag1 = [board[0][0], board[1][1], board[2][2]];
+            const diag2 = [board[0][2], board[1][1], board[2][0]];
+
+            if (_comboIsWinner(diag1, marker) || _comboIsWinner(diag2, marker)) return marker;
+        }
+
+        // check if game is tie
+        if (_boardIsFull()) return _markerOptions.join('');
+        
+        return '';
+    }
 
     return {
         playTurn
