@@ -7,6 +7,8 @@ const gameboard = (doc => {
 
     let turn = 'X'
 
+    let winner = '';
+    
     const _markerOptions = ['X', 'O'];
 
     const _boardSize = board.length; // assuming board is square
@@ -26,6 +28,8 @@ const gameboard = (doc => {
     }
 
     const playTurn = (playerList, idx) => {
+        if (winner.length > 0) return;
+        
         const curPlayer = _getCurrentPlayer(playerList);
         _addMarkerToBoard(curPlayer.marker, idx);
     }
@@ -51,7 +55,7 @@ const gameboard = (doc => {
         
         board[row][col] = marker;
         _renderBoardElement(idx);
-        console.log(_getGameWinner());
+        winner = _getGameWinner();
     };
 
     const _renderBoardElement = idx => {
