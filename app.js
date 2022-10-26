@@ -13,6 +13,8 @@ const gameboard = (doc => {
 
     const _boardSize = board.length; // assuming board is square
 
+    const _winnerEl  = document.querySelector('#game-winner');
+
     const _linearIdx2RowColIdx = linearIdx => {
         // row major linear indexing to row and column indexing
         // row major linear indexing: [[0, 1, 2], [3, 4, 5], [6, 7, 8]]
@@ -56,6 +58,7 @@ const gameboard = (doc => {
         board[row][col] = marker;
         _renderBoardElement(idx);
         winner = _getGameWinner();
+        _renderGameWinner();
     };
 
     const _renderBoardElement = idx => {
@@ -98,6 +101,17 @@ const gameboard = (doc => {
         if (_boardIsFull()) return _markerOptions.join('');
         
         return '';
+    }
+
+    const _renderGameWinner = () => {
+        if (winner.length === 0) return;
+
+        if (winner.length === 2) {
+            _winnerEl.innerText = 'TIE';
+            return;
+        }
+
+        _winnerEl.innerText = winner;
     }
 
     return {
