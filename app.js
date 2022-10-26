@@ -1,5 +1,5 @@
 const gameboard = (doc => {
-    const board = [
+    let board = [
         ['', '', ''],
         ['', '', ''],
         ['', '', '']
@@ -15,6 +15,8 @@ const gameboard = (doc => {
 
     const _curTurnEl = document.querySelector('#current-turn');
     const _winnerEl  = document.querySelector('#game-winner');
+    const _restartGameBtn = document.querySelector('.header button');
+
 
     const _linearIdx2RowColIdx = linearIdx => {
         // row major linear indexing to row and column indexing
@@ -106,15 +108,38 @@ const gameboard = (doc => {
     }
 
     const _renderGameWinner = () => {
-        if (winner.length === 0) return;
-
-        if (winner.length === 2) {
-            _winnerEl.innerText = 'TIE';
+        if (winner.length === 0) {
+            _winnerEl.innerText = 'TBD';
             return;
-        }
+        } else if (winner.length == 2) _winnerEl.innerText = 'TIE'; 
+        else _winnerEl.innerText = winner;
 
-        _winnerEl.innerText = winner;
+        _curTurnEl.innerText = 'Game Over'
     }
+
+    const _resetGame = () => {
+        // turn
+        turn = 'X';
+        _curTurnEl.innerText = turn;
+
+        // game winner
+        winner = '';
+        _renderGameWinner();
+
+        // board
+        board = [
+            ['', '', ''],
+            ['', '', ''],
+            ['', '', '']
+        ];
+
+        for (let i = 0; i < _boardSize * _boardSize; i++) {
+            _renderBoardElement(i);
+        }
+    }
+    _restartGameBtn.addEventListener('click', _resetGame);
+
+
 
     return {
         playTurn
