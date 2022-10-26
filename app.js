@@ -13,6 +13,7 @@ const gameboard = (doc => {
 
     const _boardSize = board.length; // assuming board is square
 
+    const _curTurnEl = document.querySelector('#current-turn');
     const _winnerEl  = document.querySelector('#game-winner');
 
     const _linearIdx2RowColIdx = linearIdx => {
@@ -54,6 +55,7 @@ const gameboard = (doc => {
 
         // toggle turn
         turn = turn.toUpperCase() === 'X' ? turn = 'O' : turn = 'X';
+        _curTurnEl.innerText = turn;
         
         board[row][col] = marker;
         _renderBoardElement(idx);
