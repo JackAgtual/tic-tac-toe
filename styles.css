@@ -1,19 +1,48 @@
+:root {
+    --orange-accent: rgb(244, 163, 0);
+}
+
 body {
     height: 100vh;
     background-color: rgb(188, 231, 255);
     display: grid;
     grid-template-rows: min-content 1fr;
+    grid-template-columns: 1fr;
     justify-items: center;
     margin: 0;
     font-family: 'Anton', sans-serif;
+}
+
+.header {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    place-items: center;
+}
+
+.header h1 {
+    font-size: 2rem;
+}
+
+.header button {
+    align-self: center;
+    border: none;
+    padding: 1rem;
+    border-radius: 10px;
+    background-color: var(--orange-accent);
+    font-weight: 900;
+}
+
+.main {
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: 20px;
 }
 
 .gameboard {
     display: grid;
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
     gap: 0.5rem;
-    background-color: rgb(244, 163, 0);
-    aspect-ratio: 1;
+    background-color: var(--orange-accent);
     width: min(90vw, 80vh);
     height: min(90vw, 80vh);
 }

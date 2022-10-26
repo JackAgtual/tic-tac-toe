@@ -12,17 +12,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Tic Tac Toe</h1>
-    <div class="gameboard">
-        <button data-idx="0" class="box"></button>
-        <button data-idx="1" class="box"></button>
-        <button data-idx="2" class="box"></button>
-        <button data-idx="3" class="box"></button>
-        <button data-idx="4" class="box"></button>
-        <button data-idx="5" class="box"></button>
-        <button data-idx="6" class="box"></button>
-        <button data-idx="7" class="box"></button>
-        <button data-idx="8" class="box"></button>
+
+    <div class="header">
+        <h1>Tic Tac Toe:</h1>
+        <div>
+            <div>Current Turn: <br> <span id="current-turn">X</span></div>
+        </div>
+        <div>
+            <div>Winner: <br> <span id="game-winner">TBD</span></div>
+        </div>
+        <button>Restart game</button>
+    </div>
+    <div class="main">
+        <div class="gameboard">
+            <button data-idx="0" class="box"></button>
+            <button data-idx="1" class="box"></button>
+            <button data-idx="2" class="box"></button>
+            <button data-idx="3" class="box"></button>
+            <button data-idx="4" class="box"></button>
+            <button data-idx="5" class="box"></button>
+            <button data-idx="6" class="box"></button>
+            <button data-idx="7" class="box"></button>
+            <button data-idx="8" class="box"></button>
+        </div>
+        
     </div>
 </body>
 </html>
