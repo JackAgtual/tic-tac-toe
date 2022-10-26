@@ -1,22 +1,21 @@
 const gameboard = (doc => {
-    let board = [
+    let _board = [
         ['', '', ''],
         ['', '', ''],
         ['', '', '']
     ];
 
-    let turn = 'X'
+    let _turn = 'X'
 
-    let winner = '';
+    let _winner = '';
     
     const _markerOptions = ['X', 'O'];
 
-    const _boardSize = board.length; // assuming board is square
+    const _boardSize = _board.length; // assuming board is square
 
     const _curTurnEl = document.querySelector('#current-turn');
     const _winnerEl  = document.querySelector('#game-winner');
     const _restartGameBtn = document.querySelector('.header button');
-
 
     const _linearIdx2RowColIdx = linearIdx => {
         // row major linear indexing to row and column indexing
@@ -26,14 +25,14 @@ const gameboard = (doc => {
 
     const _getCurrentPlayer = playerList => {
         for (let i = 0; i < playerList.length; i++) {
-            if (playerList[i].marker === turn) {
+            if (playerList[i].marker === _turn) {
                 return playerList[i];
             }
         }
     }
 
     const playTurn = (playerList, idx) => {
-        if (winner.length > 0) return;
+        if (_winner.length > 0) return;
         
         const curPlayer = _getCurrentPlayer(playerList);
         _addMarkerToBoard(curPlayer.marker, idx);
@@ -41,11 +40,11 @@ const gameboard = (doc => {
 
     const _moveIsValid = (marker, row, col) => {
         // check if tile is already filled
-        const curMarker = board[row][col];
+        const curMarker = _board[row][col];
         if (curMarker.length !== 0) return false;
 
         // check if it's player's turn
-        if (marker !== turn) return false;
+        if (marker !== _turn) return false;
 
         return true;
     }
@@ -56,19 +55,19 @@ const gameboard = (doc => {
         if (!_moveIsValid(marker, row, col)) return;
 
         // toggle turn
-        turn = turn.toUpperCase() === 'X' ? turn = 'O' : turn = 'X';
-        _curTurnEl.innerText = turn;
+        _turn = _turn.toUpperCase() === 'X' ? _turn = 'O' : _turn = 'X';
+        _curTurnEl.innerText = _turn;
         
-        board[row][col] = marker;
+        _board[row][col] = marker;
         _renderBoardElement(idx);
-        winner = _getGameWinner();
+        _winner = _getGameWinner();
         _renderGameWinner();
     };
 
     const _renderBoardElement = idx => {
         const grid = doc.querySelector(`.box[data-idx="${idx}"]`);
         const [row, col] = _linearIdx2RowColIdx(idx);
-        grid.innerText = `${board[row][col]}`
+        grid.innerText = `${_board[row][col]}`
     };
 
     const _comboIsWinner = (comboArray, marker) => comboArray.filter(el => el === marker).length === _boardSize;
@@ -76,7 +75,7 @@ const gameboard = (doc => {
     const _boardIsFull = () => {
         for (let i = 0; i < _boardSize; i++) {
             for (let j = 0; j < _boardSize; j++) {
-                if (board[i][j].length === 0) return false;
+                if (_board[i][j].length === 0) return false;
             }
         }
         return true;
@@ -89,14 +88,14 @@ const gameboard = (doc => {
 
         for (const marker of _markerOptions) {
             for (let i = 0; i < _boardSize; i++) {
-                let row = board[i];
-                let col = board.map(row => row[i]);
+                let row = _board[i];
+                let col = _board.map(row => row[i]);
 
                 if(_comboIsWinner(row, marker) || _comboIsWinner(col, marker)) return marker;
             }
         
-            const diag1 = [board[0][0], board[1][1], board[2][2]];
-            const diag2 = [board[0][2], board[1][1], board[2][0]];
+            const diag1 = [_board[0][0], _board[1][1], _board[2][2]];
+            const diag2 = [_board[0][2], _board[1][1], _board[2][0]];
 
             if (_comboIsWinner(diag1, marker) || _comboIsWinner(diag2, marker)) return marker;
         }
@@ -108,26 +107,26 @@ const gameboard = (doc => {
     }
 
     const _renderGameWinner = () => {
-        if (winner.length === 0) {
+        if (_winner.length === 0) {
             _winnerEl.innerText = 'TBD';
             return;
-        } else if (winner.length == 2) _winnerEl.innerText = 'TIE'; 
-        else _winnerEl.innerText = winner;
+        } else if (_winner.length == 2) _winnerEl.innerText = 'TIE'; 
+        else _winnerEl.innerText = _winner;
 
         _curTurnEl.innerText = 'Game Over'
     }
 
     const _resetGame = () => {
         // turn
-        turn = 'X';
-        _curTurnEl.innerText = turn;
+        _turn = 'X';
+        _curTurnEl.innerText = _turn;
 
         // game winner
-        winner = '';
+        _winner = '';
         _renderGameWinner();
 
         // board
-        board = [
+        _board = [
             ['', '', ''],
             ['', '', ''],
             ['', '', '']
@@ -138,8 +137,6 @@ const gameboard = (doc => {
         }
     }
     _restartGameBtn.addEventListener('click', _resetGame);
-
-
 
     return {
         playTurn
